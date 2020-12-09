@@ -3,7 +3,9 @@ const User = models.users;
 
 exports.findByMobile = async (mobileNumber) => {
     let result = await User.findOne({
-        mobile_number: mobileNumber
+        where: {
+            mobile_number: mobileNumber
+        }
     });
     if (result) {
         result = result.toJSON();

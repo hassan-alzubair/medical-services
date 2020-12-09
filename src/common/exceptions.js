@@ -23,5 +23,6 @@ class UnauthorizedException extends ApplicationException {
 }
 
 module.exports = {
-  InvalidInputException: InvalidInputException
+    InvalidInputException: InvalidInputException,
+    UnauthorizedException: UnauthorizedException
 };
