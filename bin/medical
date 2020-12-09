@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+'use strict';
+const app = require('../app');
+const debug = require('debug')('medical:server');
+const config = require('../config/config');
+
+app.set('port', config.port);
+
+let server = app.listen(app.get('port'), function () {
+    debug('Medical ' + process.env.NODE_ENV + ' server listening on port ' + server.address().port);
+});
+
+console.info('medical is running on port ' + config.port);
+console.info("NODE_ENV : " + process.env.NODE_ENV);
