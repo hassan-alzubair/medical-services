@@ -1,5 +1,6 @@
 const userRepo = require('./user_repository');
 const authService = require('../auth/auth_service');
+const UserRoles = require('../common/constants').UserRoles;
 const Errors = require('../common/exceptions');
 const moment = require('moment');
 
@@ -10,9 +11,12 @@ exports.createOtp = async (mobileNumber, roleId) => {
     let user = await userRepo.findByMobile(mobileNumber);
     if (user === null) {
         user = await userRepo.createUser(mobileNumber, roleId);
+        if (user.role_id === UserRoles.USER) { // auto activate for normal users
+            await userRepo.activateUser(user.id);
+        }
     }
     let otp = await authService.createOtp(user.id);
-    // TODO: send otp in sms
+    // TODO: send otp with sms
     return {
         success: true,
         code: otp.code

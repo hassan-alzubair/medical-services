@@ -28,3 +28,27 @@ exports.createUser = async (mobileNumber, roleId) => {
     }
     return result;
 };
+
+exports.findById = async (userId) => {
+    let result = await User.findOne({
+        where: {
+            user_id: userId
+        }
+    });
+    if (result) {
+        result = result.toJSON();
+    } else {
+        result = null;
+    }
+    return result;
+};
+
+exports.activateUser = (userId) => {
+    return User.update({
+        activated: true
+    }, {
+        where: {
+            id: userId
+        }
+    });
+};
