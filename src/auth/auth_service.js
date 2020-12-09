@@ -62,6 +62,17 @@ exports.verifyOtp = async (mobileNumber, code) => {
     return response;
 };
 
+exports.authenticateToken = async (token) => {
+    let accessToken = await authRepository.getAccessToken(token);
+    if (!accessToken)
+        return false;
+
+    if (moment(accessToken.expires_at).isBefore(moment()))
+        return false;
+
+    return userService.findUser(accessToken.user_id, null);
+};
+
 function generateOtp() {
     return Math.floor(1000 + Math.random() * 9000);
 }

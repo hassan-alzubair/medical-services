@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const passport = require('passport');
 
 const apiVersion = '/api/v1';
 
@@ -10,7 +11,8 @@ const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
-
+app.use(passport.initialize());
+passport.use(require('./src/auth/passport_http_bearer').Strategy);
 
 app.use(`${apiVersion}/auth`, require('./src/auth/auth_router'));
 app.use(`${apiVersion}/services`, require('./src/doctors_and_nurses/doctors_and_nurses_router'));

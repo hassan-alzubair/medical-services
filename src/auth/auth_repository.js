@@ -51,3 +51,16 @@ exports.createAccessToken = async (userId, expiration, accessToken) => {
         result = null;
     return result;
 };
+
+exports.getAccessToken = async (token) => {
+    let result = await Token.findOne({
+        where: {
+            access_token: token
+        }
+    });
+    if (result)
+        result = result.toJSON();
+    else
+        result = null;
+    return result;
+};

@@ -1,5 +1,6 @@
 const authService = require('./auth_service');
 const resWrapper = require('../common/http_response_wrapper');
+const passport = require('passport');
 
 exports.otp = async (req, res) => {
     let mobileNumber = req.body.mobile_number;
@@ -24,4 +25,17 @@ exports.verify = async (req, res) => {
         console.log(e.message);
         resWrapper.error(res, e);
     }
+};
+
+exports.authenticate = (req, res, next) => {
+    passport.authenticate('bearer', {session: false}, (err, user, info) => {
+        if (err || user === false) {
+            return res.status(401).send({
+                code: 401,
+                message: 'invalid access token'
+            })
+        }
+        req.user = user;
+        next()
+    })(req, res, next);
 };
