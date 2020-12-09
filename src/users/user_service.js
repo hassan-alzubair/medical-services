@@ -3,12 +3,13 @@ const authService = require('../auth/auth_service');
 const Errors = require('../common/exceptions');
 const moment = require('moment');
 
-exports.createOtp = async (mobileNumber) => {
-    if (mobileNumber === undefined || mobileNumber === '')
+exports.createOtp = async (mobileNumber, roleId) => {
+    if (mobileNumber === undefined || mobileNumber === '' || roleId === undefined || roleId === '')
         throw new Errors.InvalidInputException();
+
     let user = await userRepo.findByMobile(mobileNumber);
     if (user === null) {
-        user = await userRepo.createUser(mobileNumber);
+        user = await userRepo.createUser(mobileNumber, roleId);
     }
     let otp = await authService.createOtp(user.id);
     // TODO: send otp in sms

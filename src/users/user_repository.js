@@ -15,9 +15,10 @@ exports.findByMobile = async (mobileNumber) => {
     return result;
 };
 
-exports.createUser = async (mobileNumber) => {
+exports.createUser = async (mobileNumber, roleId) => {
     let result = await User.create({
-        mobile_number: mobileNumber
+        mobile_number: mobileNumber,
+        role_id: roleId
     });
 
     if (result) {
