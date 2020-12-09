@@ -1,25 +1,65 @@
 const authRepository = require('./auth_repository');
-const { v4: uuidv4 } = require('uuid');
+const {v4: uuidv4} = require('uuid');
+const userService = require('../users/user_service');
+const Errors = require('../common/exceptions');
 const moment = require('moment');
 
-exports.createOtp = (userId) => {
+exports.createOtp = async (mobileNumber, roleId) => {
+    if (mobileNumber === undefined || mobileNumber === '' || roleId === undefined || roleId === '')
+        throw new Errors.InvalidInputException();
+
+    let user = await userService.findUser(null, mobileNumber);
+    if (user === null)
+        user = await userService.createUser(mobileNumber, roleId);
+
     let code = generateOtp();
     let expiration = moment().add(1, "hours");
-    return authRepository.createOtp(userId, code, expiration);
+    let otp = await authRepository.createOtp(user.id, code, expiration);
+    // TODO: send otp with sms
+    return {
+        success: true,
+        activated: user.activated,
+        code: otp.code
+    };
 };
 
-exports.getByCode = (code) => {
-    return authRepository.getByCode(code);
-};
+exports.verifyOtp = async (mobileNumber, code) => {
+    if (mobileNumber === undefined || mobileNumber === '' || code === undefined || code === '')
+        throw new Errors.InvalidInputException();
 
-exports.setCodeUsed = (codeId) => {
-    return authRepository.setCodeUsed(codeId);
-};
+    let otp = await authRepository.getByCode(code);
+    let user = await userService.findUser(null, mobileNumber);
 
-exports.createAccessToken = async (userId) => {
+    if (!otp || !user)
+        throw new Errors.InvalidInputException();
+
+    if (otp.user_id !== user.id)
+        throw new Errors.UnauthorizedException();
+
+    if (otp.used === true)
+        throw new Errors.InvalidInputException();
+
+    if (moment(otp.expires_at).isBefore(moment()))
+        throw new Errors.UnauthorizedException();
+
+    await authRepository.setCodeUsed(otp.id);
+
     let accessTokenExpiration = moment().add(14, "days");
     let accessToken = uuidv4();
-    return authRepository.createAccessToken(userId, accessTokenExpiration,accessToken);
+    let token = await authRepository.createAccessToken(user.id, accessTokenExpiration, accessToken);
+
+    let response = {
+        user: user,
+        access_token: token.access_token,
+        expires_at: token.expires_at
+    };
+
+    if (!user.activated) {
+        delete response.access_token;
+        delete response.expires_at;
+    }
+
+    return response;
 };
 
 function generateOtp() {

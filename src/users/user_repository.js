@@ -1,20 +1,6 @@
 const models = require('../../models/index');
 const User = models.users;
 
-exports.findByMobile = async (mobileNumber) => {
-    let result = await User.findOne({
-        where: {
-            mobile_number: mobileNumber
-        }
-    });
-    if (result) {
-        result = result.toJSON();
-    } else {
-        result = null;
-    }
-    return result;
-};
-
 exports.createUser = async (mobileNumber, roleId) => {
     let result = await User.create({
         mobile_number: mobileNumber,
@@ -29,11 +15,16 @@ exports.createUser = async (mobileNumber, roleId) => {
     return result;
 };
 
-exports.findById = async (userId) => {
+exports.findUser = async (userId, mobileNumber) => {
+    let where = {};
+    if (userId) {
+        where.id = userId
+    }
+    if (mobileNumber) {
+        where.mobile_number = mobileNumber;
+    }
     let result = await User.findOne({
-        where: {
-            id: userId
-        }
+        where: where
     });
     if (result) {
         result = result.toJSON();
