@@ -43,3 +43,20 @@ exports.activateUser = (userId) => {
         }
     });
 };
+
+exports.getUsers = async (roleId, pageIndex, pageSize) => {
+    pageIndex = Number(pageIndex);
+    pageSize = Number(pageSize);
+
+    let results = await User.findAll({
+        where: {
+            role_id: roleId
+        },
+        offset: pageIndex * pageSize,
+        limit: pageSize,
+        order: [["updated_at", "DESC"]]
+    });
+
+    results.map(r => r.toJSON());
+    return results;
+};

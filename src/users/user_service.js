@@ -13,3 +13,11 @@ exports.createUser = async (mobileNumber, roleId) => {
 exports.findUser = (userId, mobileNumber) => {
     return userRepo.findUser(userId, mobileNumber);
 };
+
+exports.getDoctors = (pageIndex, pageSize) => {
+    return userRepo.getUsers(UserRoles.DOCTOR, pageIndex, pageSize);
+};
+
+exports.getNurses = (pageIndex = 0, pageSize = 10) => {
+    return userRepo.getUsers(UserRoles.NURSE, pageIndex, pageSize);
+};
