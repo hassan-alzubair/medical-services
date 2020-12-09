@@ -1,4 +1,6 @@
 'use strict';
+const UserRoles = require('../../src/common/constants').UserRoles;
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('users', {
@@ -14,6 +16,11 @@ module.exports = {
       mobile_number: {
         type: Sequelize.STRING,
         unique: true
+      },
+      role_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: UserRoles.USER
       },
       gender: {
         type: Sequelize.INTEGER,
