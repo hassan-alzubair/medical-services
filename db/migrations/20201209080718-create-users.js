@@ -11,11 +11,19 @@ module.exports = {
       full_name: {
         type: Sequelize.STRING
       },
-      createdAt: {
+      mobile_number: {
+        type: Sequelize.STRING,
+        unique: true
+      },
+      gender: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }

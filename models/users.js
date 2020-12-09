@@ -14,10 +14,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   users.init({
-    full_name: DataTypes.STRING
+    full_name: DataTypes.STRING,
+    mobile_number: DataTypes.STRING,
+    gender: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'users',
   });
+  users.prototype.toJSON = function(){
+    let values = this.get();
+    return values;
+  };
   return users;
 };

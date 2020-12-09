@@ -12,7 +12,7 @@ app.use(bodyParser.json({limit: '10mb'}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 
-// app.use(`${apiVersion}/auth`, require('./src/auth/auth_router'));
+app.use(`${apiVersion}/users`, require('./src/users/user_router'));
 
 Error.prototype.code = Error.prototype.code || 500;
 
