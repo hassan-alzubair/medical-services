@@ -2,10 +2,10 @@ const models = require('../../models/index');
 const Token = models.tokens;
 const Otp = models.otps;
 
-exports.createOtp = async (mobileNumber, code, expiration) => {
+exports.createOtp = async (userId, code, expiration) => {
     let result = await Otp.create({
         code: code,
-        mobile_number: mobileNumber,
+        user_id: userId,
         expires_at: expiration
     });
     if (result) {
@@ -29,9 +29,9 @@ exports.getByCode = async (code) => {
     return result;
 };
 
-exports.createAccessToken = async (mobileNumber, expiration, accessToken) => {
+exports.createAccessToken = async (userId, expiration, accessToken) => {
     let result = await Token.create({
-        mobile_number: mobileNumber,
+        user_id: userId,
         access_token: accessToken,
         expires_at: expiration
     });

@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         unique: true
       },
-      mobile_number: {
+      user_id: {
         type: Sequelize.STRING,
         allowNull: false
       },

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   tokens.init({
     access_token: DataTypes.STRING,
-    mobile_number: DataTypes.STRING,
+    user_id: DataTypes.INTEGER,
     expires_at: DataTypes.DATE
   }, {
     sequelize,

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   otps.init({
     code: DataTypes.INTEGER,
     expires_at: DataTypes.DATE,
-    mobile_number: DataTypes.STRING,
+    user_id: DataTypes.INTEGER,
     used: DataTypes.BOOLEAN
   }, {
     sequelize,
