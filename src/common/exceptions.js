@@ -22,7 +22,14 @@ class UnauthorizedException extends ApplicationException {
     }
 }
 
+class AccountNotActivatedException extends ApplicationException{
+    constructor() {
+        super("account not activated", 405);
+    }
+}
+
 module.exports = {
     InvalidInputException: InvalidInputException,
-    UnauthorizedException: UnauthorizedException
+    UnauthorizedException: UnauthorizedException,
+    AccountNotActivatedException: AccountNotActivatedException
 };

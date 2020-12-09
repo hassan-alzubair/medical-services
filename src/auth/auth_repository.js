@@ -29,6 +29,16 @@ exports.getByCode = async (code) => {
     return result;
 };
 
+exports.setCodeUsed = (codeId) => {
+    return Otp.update({
+        used: true
+    }, {
+        where: {
+            id: codeId
+        }
+    });
+};
+
 exports.createAccessToken = async (userId, expiration, accessToken) => {
     let result = await Token.create({
         user_id: userId,

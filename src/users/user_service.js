@@ -13,12 +13,14 @@ exports.createOtp = async (mobileNumber, roleId) => {
         user = await userRepo.createUser(mobileNumber, roleId);
         if (user.role_id === UserRoles.USER) { // auto activate for normal users
             await userRepo.activateUser(user.id);
+            user = await userRepo.findById(user.id);
         }
     }
     let otp = await authService.createOtp(user.id);
     // TODO: send otp with sms
     return {
         success: true,
+        activated: user.activated,
         code: otp.code
     };
 };
@@ -36,13 +38,26 @@ exports.verifyOtp = async (mobileNumber, code) => {
     if (otp.user_id !== user.id)
         throw new Errors.UnauthorizedException();
 
+    if (otp.used === true)
+        throw new Errors.InvalidInputException();
+
     if (moment(otp.expires_at).isBefore(moment()))
         throw new Errors.UnauthorizedException();
 
+    await authService.setCodeUsed(otp.id);
+
     let token = await authService.createAccessToken(user.id);
-    return {
+
+    let response = {
         user: user,
         access_token: token.access_token,
         expires_at: token.expires_at
     };
+
+    if (!user.activated){
+        delete response.access_token;
+        delete response.expires_at;
+    }
+
+    return response;
 };

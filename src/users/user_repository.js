@@ -32,7 +32,7 @@ exports.createUser = async (mobileNumber, roleId) => {
 exports.findById = async (userId) => {
     let result = await User.findOne({
         where: {
-            user_id: userId
+            id: userId
         }
     });
     if (result) {

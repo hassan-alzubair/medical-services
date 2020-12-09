@@ -12,6 +12,10 @@ exports.getByCode = (code) => {
     return authRepository.getByCode(code);
 };
 
+exports.setCodeUsed = (codeId) => {
+    return authRepository.setCodeUsed(codeId);
+};
+
 exports.createAccessToken = async (userId) => {
     let accessTokenExpiration = moment().add(14, "days");
     let accessToken = uuidv4();

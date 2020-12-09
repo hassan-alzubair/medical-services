@@ -18,7 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     mobile_number: DataTypes.STRING,
     gender: DataTypes.INTEGER,
     role_id: DataTypes.INTEGER,
-    activated: DataTypes.BOOLEAN
+    activated: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
   }, {
     sequelize,
     modelName: 'users',

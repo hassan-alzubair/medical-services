@@ -13,7 +13,7 @@ module.exports = {
         unique: true
       },
       user_id: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       expires_at: {
