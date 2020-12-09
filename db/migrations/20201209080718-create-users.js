@@ -38,7 +38,41 @@ module.exports = {
             updated_at: {
                 allowNull: false,
                 type: Sequelize.DATE
-            }
+            },
+
+
+            // doctors data
+            profile_image: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
+            specialization: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
+            clinic: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
+            state: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
+            years_of_experience: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
+            working_in_hospitals: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
+
+
+            // nurse data
+            services: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
         });
     },
     down: async (queryInterface, Sequelize) => {
