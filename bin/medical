@@ -4,11 +4,11 @@ const app = require('../app');
 const debug = require('debug')('medical:server');
 const config = require('../config/config');
 
-app.set('port', config.port);
+app.set('port', config.PORT);
 
 let server = app.listen(app.get('port'), function () {
-    debug('Medical ' + process.env.NODE_ENV + ' server listening on port ' + server.address().port);
+    debug('Medical ' + config.NODE_ENV + ' server listening on port ' + config.PORT);
 });
 
-console.info('medical is running on port ' + config.port);
-console.info("NODE_ENV : " + process.env.NODE_ENV);
+console.info('medical is running on port ' + config.PORT);
+console.info("NODE_ENV : " + config.NODE_ENV);

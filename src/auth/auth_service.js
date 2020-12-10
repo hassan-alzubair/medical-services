@@ -18,7 +18,6 @@ exports.createOtp = async (mobileNumber, roleId) => {
     // TODO: send otp with sms
     return {
         success: true,
-        activated: user.activated,
         code: otp.code
     };
 };
@@ -48,18 +47,11 @@ exports.verifyOtp = async (mobileNumber, code) => {
     let accessToken = uuidv4();
     let token = await authRepository.createAccessToken(user.id, accessTokenExpiration, accessToken);
 
-    let response = {
+    return {
         user: user,
         access_token: token.access_token,
         expires_at: token.expires_at
     };
-
-    if (!user.activated) {
-        delete response.access_token;
-        delete response.expires_at;
-    }
-
-    return response;
 };
 
 exports.authenticateToken = async (token) => {
@@ -70,7 +62,11 @@ exports.authenticateToken = async (token) => {
     if (moment(accessToken.expires_at).isBefore(moment()))
         return false;
 
-    return userService.findUser(accessToken.user_id, null);
+    let user = await userService.findUser(accessToken.user_id, null);
+    if (!user.activated)
+        return false;
+
+    return user;
 };
 
 function generateOtp() {

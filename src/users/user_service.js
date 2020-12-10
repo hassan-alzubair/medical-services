@@ -1,5 +1,6 @@
 const userRepo = require('./user_repository');
 const UserRoles = require('../common/constants').UserRoles;
+const Errors = require('../common/exceptions');
 
 exports.createUser = async (mobileNumber, roleId) => {
     let user = await userRepo.createUser(mobileNumber, roleId);
@@ -21,3 +22,16 @@ exports.getDoctors = (pageIndex, pageSize) => {
 exports.getNurses = (pageIndex = 0, pageSize = 10) => {
     return userRepo.getUsers(UserRoles.NURSE, pageIndex, pageSize);
 };
+
+exports.updateProfile = async (userId, roleId, data) => {
+    let user = await userRepo.findUser(userId, null);
+    if (!user)
+        throw new Errors.InvalidInputException();
+
+    await userRepo.updateUser(userId, data);
+    return userRepo.findUser(userId, null);
+};
+
+function validField(field) {
+    return !(field === null || field === undefined || field + '' === '');
+}

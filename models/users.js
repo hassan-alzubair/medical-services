@@ -1,5 +1,6 @@
 'use strict';
 const UserRoles = require('../src/common/constants').UserRoles;
+const config = require('../config/config');
 
 const {
     Model
@@ -51,6 +52,9 @@ module.exports = (sequelize, DataTypes) => {
             delete values.working_in_hospitals;
             delete values.services;
         } else if (values.role_id === UserRoles.DOCTOR) {
+            if (values.profile_image !== null){
+                values.profile_image = `${config.APP_URL}/${values.profile_image}`;
+            }
             delete values.services;
         } else if (values.role_id === UserRoles.NURSE) {
             delete values.profile_image;

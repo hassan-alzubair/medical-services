@@ -60,3 +60,11 @@ exports.getUsers = async (roleId, pageIndex, pageSize) => {
     results.map(r => r.toJSON());
     return results;
 };
+
+exports.updateUser = (userId, user) => {
+    return User.update(user, {
+        where: {
+            id: userId
+        }
+    });
+};
