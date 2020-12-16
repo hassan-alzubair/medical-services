@@ -27,6 +27,17 @@ exports.verify = async (req, res) => {
     }
 };
 
+exports.logout = async (req, res) => {
+    let accessToken = req.headers['Authorization'].split(" ")[1];
+    try{
+        await authService.logout(accessToken);
+        resWrapper.success(res);
+    }catch (e) {
+        console.log(e.message);
+        resWrapper.error(res, e);
+    }
+};
+
 exports.authenticate = (req, res, next) => {
     passport.authenticate('bearer', {session: false}, (err, user, info) => {
         if (err || user === false) {

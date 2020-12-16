@@ -64,3 +64,11 @@ exports.getAccessToken = async (token) => {
         result = null;
     return result;
 };
+
+exports.deleteToken = (token) => {
+    return Token.destroy({
+        where: {
+            access_token: token
+        }
+    });
+};

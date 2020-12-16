@@ -17,8 +17,7 @@ exports.createOtp = async (mobileNumber, roleId) => {
     let otp = await authRepository.createOtp(user.id, code, expiration);
     // TODO: send otp with sms
     return {
-        success: true,
-        code: otp.code
+        success: true
     };
 };
 
@@ -67,6 +66,10 @@ exports.authenticateToken = async (token) => {
         return false;
 
     return user;
+};
+
+exports.logout = (token) => {
+    return authRepository.deleteToken(token);
 };
 
 function generateOtp() {
