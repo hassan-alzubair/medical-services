@@ -19,7 +19,8 @@ exports.createOtp = async (userId, code, expiration) => {
 exports.getByCode = async (code) => {
     let result = await Otp.findOne({
         where: {
-            code: code
+            code: code,
+            used: false
         }
     });
     if (result)

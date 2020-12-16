@@ -28,7 +28,8 @@ exports.verify = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-    let accessToken = req.headers['Authorization'].split(" ")[1];
+    let accessToken = req.headers['authorization'];
+    console.log(req.headers);
     try{
         await authService.logout(accessToken);
         resWrapper.success(res);

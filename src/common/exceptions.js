@@ -11,8 +11,8 @@ class ApplicationException extends Error {
 
 
 class InvalidInputException extends ApplicationException {
-    constructor() {
-        super("invalid input", 400);
+    constructor(msg) {
+        super(msg || "invalid input", 400);
     }
 }
 
