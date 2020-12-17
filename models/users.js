@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         mobile_number: DataTypes.STRING,
         gender: DataTypes.INTEGER,
         role_id: DataTypes.INTEGER,
+        fcm_token: DataTypes.STRING,
         activated: {
             type: DataTypes.BOOLEAN,
             allowNull: false,

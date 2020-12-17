@@ -32,6 +32,14 @@ exports.updateProfile = async (userId, roleId, data) => {
     return userDao.findUser(userId, null);
 };
 
+exports.updateFCMToken = (userId, token) => {
+    if (!validField(token))
+        throw new Errors.InvalidInputException('token is invalid');
+    return userDao.updateUser(userId, {
+        fcm_token: token
+    });
+};
+
 function validField(field) {
     return !(field === null || field === undefined || field + '' === '');
 }

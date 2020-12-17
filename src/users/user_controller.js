@@ -17,3 +17,16 @@ exports.updateProfile = async (req, res) => {
         resWrapper.error(res, e);
     }
 };
+
+exports.registerFCMToken = async (req, res) => {
+    let userId = req.user.id;
+    let token = req.body.fcm_token;
+
+    try {
+        await userService.updateFCMToken(userId, token);
+        resWrapper.success(res);
+    } catch (e) {
+        console.log(e);
+        resWrapper.error(res, e);
+    }
+};

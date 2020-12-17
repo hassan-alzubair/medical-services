@@ -5,5 +5,6 @@ const router = express.Router();
 const uploadMiddleware = require('./upload_image_middleware');
 
 router.put('/profile', authController.authenticate, uploadMiddleware.uploadAvatar, userController.updateProfile);
+router.put('/register_fcm_token', authController.authenticate, userController.registerFCMToken);
 
 module.exports = router;
