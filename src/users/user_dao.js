@@ -34,6 +34,13 @@ exports.findUser = async (userId, mobileNumber) => {
     return result;
 };
 
+exports.getUserFcmToken = (userId) => {
+    return User.findOne({
+        where: {id: userId},
+        attributes: ['fcm_token'],
+    });
+};
+
 exports.activateUser = (userId) => {
     return User.update({
         activated: true

@@ -24,7 +24,6 @@ exports.getById = async (messageId) => {
     return message;
 };
 
-
 exports.getMessages = async (userId, otherUserId, lastMessageId, pageSize) => {
     pageSize = Number(pageSize);
     lastMessageId = Number(lastMessageId);

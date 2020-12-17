@@ -40,6 +40,10 @@ exports.updateFCMToken = (userId, token) => {
     });
 };
 
+exports.getUserFcmToken = (userId) => {
+    return userDao.getUserFcmToken(userId);
+};
+
 function validField(field) {
     return !(field === null || field === undefined || field + '' === '');
 }
