@@ -6,13 +6,13 @@ module.exports = {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
-                type: Sequelize.INTEGER
+                type: Sequelize.BIGINT
             },
             sender_id: {
-                type: Sequelize.INTEGER
+                type: Sequelize.BIGINT
             },
             receiver_id: {
-                type: Sequelize.INTEGER
+                type: Sequelize.BIGINT
             },
             message: {
                 type: Sequelize.TEXT

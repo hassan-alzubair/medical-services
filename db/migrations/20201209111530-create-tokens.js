@@ -6,10 +6,10 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
       },
       access_token: {
         type: Sequelize.STRING

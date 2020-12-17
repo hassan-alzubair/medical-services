@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     messages.init({
-        sender_id: DataTypes.INTEGER,
-        receiver_id: DataTypes.INTEGER,
+        sender_id: DataTypes.BIGINT,
+        receiver_id: DataTypes.BIGINT,
         message: DataTypes.TEXT,
         read: DataTypes.BOOLEAN
     }, {

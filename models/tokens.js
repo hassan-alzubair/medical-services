@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   tokens.init({
     access_token: DataTypes.STRING,
-    user_id: DataTypes.INTEGER,
+    user_id: DataTypes.BIGINT,
     expires_at: DataTypes.DATE
   }, {
     sequelize,
