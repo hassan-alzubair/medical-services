@@ -1,4 +1,4 @@
-const authRepository = require('./auth_repository');
+const authDao = require('./auth_dao');
 const {v4: uuidv4} = require('uuid');
 const userService = require('../users/user_service');
 const Errors = require('../common/exceptions');
@@ -15,7 +15,7 @@ exports.createOtp = async (mobileNumber, roleId) => {
 
     let code = generateOtp();
     let expiration = moment().add(1, "hours");
-    let otp = await authRepository.createOtp(user.id, code, expiration);
+    let otp = await authDao.createOtp(user.id, code, expiration);
     // TODO: send otp with sms
     return {
         success: true
@@ -27,7 +27,7 @@ exports.verifyOtp = async (mobileNumber, code) => {
     if (mobileNumber === undefined || mobileNumber === '' || code === undefined || code === '')
         throw new Errors.InvalidInputException("invalid mobile");
 
-    let otp = await authRepository.getByCode(code);
+    let otp = await authDao.getByCode(code);
     let user = await userService.findUser(null, mobileNumber);
 
     if (!otp || !user)
@@ -39,11 +39,11 @@ exports.verifyOtp = async (mobileNumber, code) => {
     if (moment(otp.expires_at).isBefore(moment()))
         throw new Errors.UnauthorizedException("otp is expired");
 
-    await authRepository.setCodeUsed(otp.id);
+    await authDao.setCodeUsed(otp.id);
 
     let accessTokenExpiration = moment().add(14, "days");
     let accessToken = uuidv4();
-    let token = await authRepository.createAccessToken(user.id, accessTokenExpiration, accessToken);
+    let token = await authDao.createAccessToken(user.id, accessTokenExpiration, accessToken);
 
     return {
         user: user,
@@ -53,7 +53,7 @@ exports.verifyOtp = async (mobileNumber, code) => {
 };
 
 exports.authenticateToken = async (token) => {
-    let accessToken = await authRepository.getAccessToken(token);
+    let accessToken = await authDao.getAccessToken(token);
     if (!accessToken)
         return false;
 
@@ -72,7 +72,7 @@ exports.logout = (token) => {
     if (token === '' || token === null || token === undefined)
         throw new Errors.InvalidInputException();
 
-    return authRepository.deleteToken(token);
+    return authDao.deleteToken(token);
 };
 
 function generateOtp() {
