@@ -19,6 +19,8 @@ app.use(`${apiVersion}/auth`, require('./src/auth/auth_router'));
 app.use(`${apiVersion}/services`, require('./src/doctors_and_nurses/doctors_and_nurses_router'));
 app.use(`${apiVersion}/user`, require('./src/users/user_router'));
 app.use(`${apiVersion}/messages`, require('./src/messages/messages_router'));
+app.use(`${apiVersion}/pharmacies`, require('./src/pharmacies/user/pharmacies_router'));
+app.use(`${apiVersion}/dashboard/pharmacies`, require('./src/pharmacies/dashboard/pharmacies_router'));
 
 Error.prototype.code = Error.prototype.code || 500;
 

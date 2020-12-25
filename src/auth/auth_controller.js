@@ -1,5 +1,6 @@
 const authService = require('./auth_service');
 const resWrapper = require('../common/http_response_wrapper');
+const UserRoles = require('../common/constants').UserRoles;
 const passport = require('passport');
 
 exports.otp = async (req, res) => {
@@ -50,4 +51,17 @@ exports.authenticate = (req, res, next) => {
         req.user = user;
         next()
     })(req, res, next);
+};
+
+exports.isSupervisor = (req, res, next) => {
+    if(req.user.role_id === UserRoles.ADMIN){
+        next();
+    }else{
+        if (err || user === false) {
+            return res.status(401).send({
+                code: 401,
+                message: 'unauthorized'
+            })
+        }
+    }
 };

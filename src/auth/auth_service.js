@@ -16,7 +16,7 @@ exports.createOtp = async (mobileNumber, roleId) => {
     let code = generateOtp();
     let expiration = moment().add(1, "hours");
     let otp = await authDao.createOtp(user.id, code, expiration);
-    // TODO: send otp with sms
+    // TODO: send otp with sms, code = otp.code
     return {
         success: true
     };
