@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post('/', authController.authenticate, messagesController.sendMessage);
 router.get('/', authController.authenticate, messagesController.getMessages);
+router.get('/latest', authController.authenticate, messagesController.getLatest);
 
 module.exports = router;

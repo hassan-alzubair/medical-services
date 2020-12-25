@@ -36,3 +36,7 @@ exports.getMessage = async (userId, otherUserId, lastMessageId = null, pageSize 
         throw new Errors.InvalidInputException();
     return messagesDao.getMessages(userId, otherUserId, lastMessageId, pageSize);
 };
+
+exports.getLatestMessages = (userId, pageSize = 10, pageNumber = 0) => {
+    return messagesDao.getLatestMessages(userId, pageSize, pageNumber);
+};

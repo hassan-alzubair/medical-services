@@ -44,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     users.prototype.toJSON = function () {
         let values = this.get();
+        delete values.fcm_token;
         if (values.role_id === UserRoles.USER || values.role_id === UserRoles.ADMIN) {
             delete values.profile_image;
             delete values.specialization;

@@ -32,3 +32,17 @@ exports.getMessages = async (req, res) => {
         resWrapper.error(res, e);
     }
 };
+
+exports.getLatest = async (req, res) => {
+    let userId = req.user.id;
+    let pageSize = req.query.page_size;
+    let pageNumber = req.query.page_number;
+
+    try {
+        let result = await messagesService.getLatestMessages(userId, pageSize, pageNumber);
+        resWrapper.success(res, result);
+    } catch (error) {
+        console.log(error);
+        resWrapper.error(res, error);
+    }
+};
