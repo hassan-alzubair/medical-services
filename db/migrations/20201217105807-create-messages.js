@@ -17,7 +17,12 @@ module.exports = {
             message: {
                 type: Sequelize.TEXT
             },
-            read: {
+            read_by_sender: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+                defaultValue: false
+            },
+            read_by_receiver: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
                 defaultValue: false

@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         sender_id: DataTypes.BIGINT,
         receiver_id: DataTypes.BIGINT,
         message: DataTypes.TEXT,
-        read: DataTypes.BOOLEAN
+        read_by_sender: DataTypes.BOOLEAN,
+        read_by_receiver: DataTypes.BOOLEAN
     }, {
         sequelize,
         modelName: 'messages',
