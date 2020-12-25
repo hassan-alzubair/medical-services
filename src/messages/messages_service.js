@@ -20,8 +20,7 @@ exports.sendMessage = async (message) => {
         receiver: JSON.stringify(createdMessage.receiver),
         message: createdMessage.message,
         created_at: createdMessage.created_at,
-        updated_at: createdMessage.updated_at,
-        read: createdMessage.read
+        updated_at: createdMessage.updated_at
     };
     try {
         await firebaseNotifier.pushNotification(fcmToken, data)
@@ -34,6 +33,7 @@ exports.sendMessage = async (message) => {
 exports.getMessage = async (userId, otherUserId, lastMessageId = null, pageSize = 10) => {
     if (otherUserId === undefined || otherUserId === '')
         throw new Errors.InvalidInputException();
+    await messagesDao.markMessagesAsReadWithUser(userId, otherUserId);
     return messagesDao.getMessages(userId, otherUserId, lastMessageId, pageSize);
 };
 

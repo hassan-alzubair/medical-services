@@ -84,8 +84,31 @@ exports.getLatestMessages = async (userId, pageSize, pageNumber) => {
         include: [
             { model: models.users, as: 'sender' },
             { model: models.users, as: 'receiver' }
-        ]
+        ],
+        order: [['id', 'DESC']]
     });
     messages = messages.map(message => message.toJSON());
     return messages;
+};
+
+exports.markMessagesAsReadWithUser = async (userId, otherUserId) => {
+    await Message.update({
+        read_by_sender: true
+    }, {
+        where: {
+            sender_id: userId,
+            receiver_id: otherUserId
+        }
+    });
+
+    await Message.update({
+        read_by_receiver: true
+    }, {
+        where: {
+            receiver_id: userId,
+            sender_id: otherUserId
+        }
+    });
+
+    return Promise.resolve();
 };
