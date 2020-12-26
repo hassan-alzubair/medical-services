@@ -45,8 +45,10 @@ module.exports = (sequelize, DataTypes) => {
     users.prototype.toJSON = function () {
         let values = this.get();
         delete values.fcm_token;
+        if (values.profile_image !== null){
+            values.profile_image = `${config.APP_URL}/${values.profile_image}`;
+        }
         if (values.role_id === UserRoles.USER || values.role_id === UserRoles.ADMIN) {
-            delete values.profile_image;
             delete values.specialization;
             delete values.clinic;
             delete values.state;
@@ -54,9 +56,6 @@ module.exports = (sequelize, DataTypes) => {
             delete values.working_in_hospitals;
             delete values.services;
         } else if (values.role_id === UserRoles.DOCTOR) {
-            if (values.profile_image !== null){
-                values.profile_image = `${config.APP_URL}/${values.profile_image}`;
-            }
             delete values.services;
         } else if (values.role_id === UserRoles.NURSE) {
             delete values.profile_image;
