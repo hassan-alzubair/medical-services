@@ -1,5 +1,5 @@
-const resWrapper = require('../common/http_response_wrapper');
-const userService = require('../users/user_service');
+const resWrapper = require('../../common/http_response_wrapper');
+const userService = require('../user_service');
 
 exports.updateProfile = async (req, res) => {
     let userId = req.user.id;

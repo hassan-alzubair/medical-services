@@ -44,6 +44,14 @@ exports.getUserFcmToken = (userId) => {
     return userDao.getUserFcmToken(userId);
 };
 
+exports.activateUser = async(userId) => {
+    let user = await userDao.findUser(userId, null);
+    if (!user)
+        throw new Errors.InvalidInputException();
+    await userDao.activateUser(userId);
+    return userDao.findUser(userId);
+};
+
 function validField(field) {
     return !(field === null || field === undefined || field + '' === '');
 }
