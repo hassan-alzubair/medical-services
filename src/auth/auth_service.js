@@ -10,8 +10,13 @@ exports.createOtp = async (mobileNumber, roleId) => {
         throw new Errors.InvalidInputException();
 
     let user = await userService.findUser(null, mobileNumber);
-    if (user === null)
+    if (user === null){
         user = await userService.createUser(mobileNumber, roleId);
+    }else{
+        if(user.role_id !== Number(roleId)){
+            throw new Errors.UnauthorizedException();
+        }
+    }
 
     let code = generateOtp();
     let expiration = moment().add(1, "hours");
@@ -61,8 +66,6 @@ exports.authenticateToken = async (token) => {
         return false;
 
     let user = await userService.findUser(accessToken.user_id, null);
-    if (!user.activated)
-        return false;
 
     return user;
 };
