@@ -61,13 +61,17 @@ exports.getLatestMessages = async (userId, pageSize, pageNumber) => {
 
     let latestMessagesIds = await Message.findAll({
         attributes: [[sequelize.fn("max", sequelize.col('id')), 'id']],
-        group: ['sender_id', 'receiver_id'],
+        group: [
+            sequelize.fn("least", sequelize.col("sender_id"), sequelize.col("receiver_id")),
+            sequelize.fn("greatest", sequelize.col("sender_id"), sequelize.col("receiver_id")),
+        ],
         where: {
             [Op.or]: [
                 { sender_id: userId },
                 { receiver_id: userId }
             ]
         },
+        raw: true,
         offset: pageSize * pageNumber,
         limit: pageSize,
         order: [['id', 'DESC']]
