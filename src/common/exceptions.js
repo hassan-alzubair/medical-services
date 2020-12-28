@@ -17,8 +17,8 @@ class InvalidInputException extends ApplicationException {
 }
 
 class UnauthorizedException extends ApplicationException {
-    constructor() {
-        super("unauthorized", 403);
+    constructor(msg) {
+        super(msg || "unauthorized", 403);
     }
 }
 
