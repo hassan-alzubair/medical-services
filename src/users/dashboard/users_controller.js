@@ -12,3 +12,27 @@ exports.activateUser = async(req, res) => {
         resWrapper.error(res, err);
     }
 };
+
+exports.getDoctors = async (req, res) => {
+    let pageSize = req.query.page_size;
+    let pageNumber = req.query.page_number;
+
+    try{
+        let result = await userService.getDoctors(pageNumber, pageSize);
+        resWrapper.success(res, result);
+    }catch(err){
+        resWrapper.error(res, err);
+    }
+};
+
+exports.getNurses = async (req, res) => {
+    let pageSize = req.query.page_size;
+    let pageNumber = req.query.page_number;
+
+    try{
+        let result = await userService.getNurses(pageNumber, pageSize);
+        resWrapper.success(res, result);
+    }catch(err){
+        resWrapper.error(res, err);
+    }
+};
