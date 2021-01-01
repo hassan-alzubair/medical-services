@@ -1,5 +1,5 @@
 const authDao = require('./auth_dao');
-const {v4: uuidv4} = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const userService = require('../users/user_service');
 const Errors = require('../common/exceptions');
 const moment = require('moment');
@@ -10,10 +10,10 @@ exports.createOtp = async (mobileNumber, roleId) => {
         throw new Errors.InvalidInputException();
 
     let user = await userService.findUser(null, mobileNumber);
-    if (user === null){
+    if (user === null) {
         user = await userService.createUser(mobileNumber, roleId);
-    }else{
-        if(user.role_id !== Number(roleId)){
+    } else {
+        if (user.role_id !== Number(roleId)) {
             throw new Errors.UnauthorizedException();
         }
     }
@@ -32,8 +32,12 @@ exports.verifyOtp = async (mobileNumber, code) => {
     if (mobileNumber === undefined || mobileNumber === '' || code === undefined || code === '')
         throw new Errors.InvalidInputException("invalid mobile");
 
-    let otp = await authDao.getByCode(code);
     let user = await userService.findUser(null, mobileNumber);
+    if (!user) {
+        throw new Errors.InvalidInputException();
+    }
+
+    let otp = await authDao.getByCode(user.id, code);
 
     if (!otp || !user)
         throw new Errors.InvalidInputException("invalid otp or user");

@@ -16,10 +16,11 @@ exports.createOtp = async (userId, code, expiration) => {
     return result;
 };
 
-exports.getByCode = async (code) => {
+exports.getByCode = async (userId, code) => {
     let result = await Otp.findOne({
         where: {
             code: code,
+            user_id: userId,
             used: false
         }
     });

@@ -4,7 +4,7 @@ const Errors = require('../common/exceptions');
 
 exports.createUser = async (mobileNumber, roleId) => {
     let user = await userDao.createUser(mobileNumber, roleId);
-    if (user.role_id === UserRoles.USER) { // auto activate for normal users
+    if (user.role_id === UserRoles.USER || user.role_id === UserRoles.ADMIN) { // auto activate for users/admins
         await userDao.activateUser(user.id);
         user = await userDao.findUser(user.id, null);
     }
