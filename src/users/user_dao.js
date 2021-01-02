@@ -36,7 +36,7 @@ exports.findUser = async (userId, mobileNumber) => {
 
 exports.getUserFcmToken = (userId) => {
     return User.findOne({
-        where: {id: userId},
+        where: { id: userId },
         attributes: ['fcm_token'],
     });
 };
@@ -72,6 +72,15 @@ exports.updateUser = (userId, user) => {
     return User.update(user, {
         where: {
             id: userId
+        }
+    });
+};
+
+exports.getSum = (roleId, activated) => {
+    return User.count({
+        where: {
+            role_id: roleId,
+            activated: activated
         }
     });
 };

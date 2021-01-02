@@ -44,12 +44,28 @@ exports.getUserFcmToken = (userId) => {
     return userDao.getUserFcmToken(userId);
 };
 
-exports.activateUser = async(userId) => {
+exports.activateUser = async (userId) => {
     let user = await userDao.findUser(userId, null);
     if (!user)
         throw new Errors.InvalidInputException();
     await userDao.activateUser(userId);
     return userDao.findUser(userId);
+};
+
+exports.getUsersSummary = async () => {
+    let result = {};
+
+    let newRequests = await userDao.getSum([UserRoles.DOCTOR, UserRoles.NURSE], false);
+    let totalDoctors = await userDao.getSum(UserRoles.DOCTOR, true);
+    let totalNurses = await userDao.getSum(UserRoles.NURSE, true);
+    let totalUsers = await userDao.getSum(UserRoles.USER, true);
+
+    result.new_registration_requests = newRequests;
+    result.total_doctors = totalDoctors;
+    result.total_nurses = totalNurses;
+    result.total_users = totalUsers;
+
+    return result;
 };
 
 function validField(field) {

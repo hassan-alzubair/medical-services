@@ -36,3 +36,13 @@ exports.getNurses = async (req, res) => {
         resWrapper.error(res, err);
     }
 };
+
+exports.getSummary = async (req, res) => {
+    try{
+        let result = await userService.getUsersSummary();
+        resWrapper.success(res, result);
+    }catch(err) {
+        console.log(err);
+        resWrapper.error(res, err);
+    }
+};
