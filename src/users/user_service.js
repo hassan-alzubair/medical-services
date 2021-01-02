@@ -68,6 +68,10 @@ exports.getUsersSummary = async () => {
     return result;
 };
 
+exports.getUsers = (roleId, pageSize, pageNumber) => {
+    return userDao.getUsers(roleId, pageNumber, pageSize);
+}
+
 function validField(field) {
     return !(field === null || field === undefined || field + '' === '');
 }

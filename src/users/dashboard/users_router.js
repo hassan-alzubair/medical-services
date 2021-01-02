@@ -4,6 +4,7 @@ const usersController = require('./users_controller');
 
 const router = express.Router();
 
+router.get('/', authController.authenticate, authController.isSupervisor, usersController.getUsers);
 router.put('/activate/:id', authController.authenticate, authController.isSupervisor, usersController.activateUser);
 router.get('/summary', authController.authenticate, authController.isSupervisor, usersController.getSummary);
 router.get('/doctors', authController.authenticate, authController.isSupervisor, usersController.getDoctors);

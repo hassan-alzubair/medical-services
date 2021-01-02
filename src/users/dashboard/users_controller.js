@@ -46,3 +46,17 @@ exports.getSummary = async (req, res) => {
         resWrapper.error(res, err);
     }
 };
+
+exports.getUsers = async (req, res) => {
+    let roleId = req.query.role_id;
+    let pageSize = req.query.page_size;
+    let pageNumber = req.query.page_number;
+
+    try{
+        let result = await userService.getUsers(roleId, pageSize, pageNumber);
+        resWrapper.success(res, result);
+    }catch(err){
+        console.log(err);
+        resWrapper.error(res, err);
+    }
+};
