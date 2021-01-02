@@ -5,22 +5,7 @@ const Errors = require('../common/exceptions');
 const moment = require('moment');
 
 exports.createOtp = async (mobileNumber, roleId) => {
-    console.log(`create otp, mobile = ${mobileNumber}, role id = ${roleId}`);
-    if (mobileNumber === undefined || mobileNumber === '' || roleId === undefined || roleId === '')
-        throw new Errors.InvalidInputException();
-
-    let user = await userService.findUser(null, mobileNumber);
-    if (user === null) {
-        user = await userService.createUser(mobileNumber, roleId);
-    } else {
-        if (user.role_id !== Number(roleId)) {
-            throw new Errors.UnauthorizedException();
-        }
-    }
-
-    let code = generateOtp();
-    let expiration = moment().add(1, "hours");
-    let otp = await authDao.createOtp(user.id, code, expiration);
+    let otp = await generateCode(roleId, mobileNumber);
     // TODO: send otp with sms, code = otp.code
     return {
         success: true
@@ -81,6 +66,32 @@ exports.logout = (token) => {
 
     return authDao.deleteToken(token);
 };
+
+exports.generateOTPForUser = async (roleId, mobileNumber) => {
+    let code = await generateCode(roleId, mobileNumber);
+    return {
+        code: code.code
+    };
+};
+
+const generateCode = async (roleId, mobileNumber) => {
+    console.log(`create otp, mobile = ${mobileNumber}, role id = ${roleId}`);
+    if (mobileNumber === undefined || mobileNumber === '' || roleId === undefined || roleId === '')
+        throw new Errors.InvalidInputException();
+
+    let user = await userService.findUser(null, mobileNumber);
+    if (user === null) {
+        user = await userService.createUser(mobileNumber, roleId);
+    } else {
+        if (user.role_id !== Number(roleId)) {
+            throw new Errors.UnauthorizedException();
+        }
+    }
+
+    let code = generateOtp();
+    let expiration = moment().add(1, "hours");
+    return authDao.createOtp(user.id, code, expiration);
+}
 
 function generateOtp() {
     if (process.env.NODE_ENV === 'local')

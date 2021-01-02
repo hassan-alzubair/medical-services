@@ -22,6 +22,7 @@ app.use(`${apiVersion}/messages`, require('./src/messages/messages_router'));
 app.use(`${apiVersion}/pharmacies`, require('./src/pharmacies/user/pharmacies_router'));
 app.use(`${apiVersion}/dashboard/pharmacies`, require('./src/pharmacies/dashboard/pharmacies_router'));
 app.use(`${apiVersion}/dashboard/users`, require('./src/users/dashboard/users_router'));
+app.use(`${apiVersion}/dashboard/auth`, require('./src/auth/dashboard/auth_router'));
 
 Error.prototype.code = Error.prototype.code || 500;
 
