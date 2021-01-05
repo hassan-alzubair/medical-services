@@ -51,14 +51,26 @@ exports.activateUser = (userId) => {
     });
 };
 
-exports.getUsers = async (roleId, pageIndex, pageSize) => {
+exports.getUsers = async (roleId, activated, pageIndex, pageSize) => {
     pageIndex = Number(pageIndex);
     pageSize = Number(pageSize);
 
+    let where = {};
+    if (roleId) {
+        roleId = Number(roleId);
+        where.role_id = roleId;
+    }
+
+    if ((activated !== undefined && activated !== null)) {
+        if (activated === 'true')
+            activated = true;
+        if (activated === 'false')
+            activated = false;
+        where.activated = activated;
+    }
+
     let results = await User.findAll({
-        where: {
-            role_id: roleId
-        },
+        where: where,
         offset: pageIndex * pageSize,
         limit: pageSize,
         order: [["updated_at", "DESC"]]

@@ -16,11 +16,11 @@ exports.findUser = (userId, mobileNumber) => {
 };
 
 exports.getDoctors = (pageIndex, pageSize) => {
-    return userDao.getUsers(UserRoles.DOCTOR, pageIndex, pageSize);
+    return userDao.getUsers(UserRoles.DOCTOR, true, pageIndex, pageSize);
 };
 
 exports.getNurses = (pageIndex = 0, pageSize = 10) => {
-    return userDao.getUsers(UserRoles.NURSE, pageIndex, pageSize);
+    return userDao.getUsers(UserRoles.NURSE,true, pageIndex, pageSize);
 };
 
 exports.updateProfile = async (userId, roleId, data) => {
@@ -68,8 +68,8 @@ exports.getUsersSummary = async () => {
     return result;
 };
 
-exports.getUsers = (roleId, pageSize, pageNumber) => {
-    return userDao.getUsers(roleId, pageNumber, pageSize);
+exports.getUsers = (roleId, activated, pageSize, pageNumber) => {
+    return userDao.getUsers(roleId, activated, pageNumber, pageSize);
 }
 
 function validField(field) {
