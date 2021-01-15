@@ -2,11 +2,14 @@ const authDao = require('./auth_dao');
 const { v4: uuidv4 } = require('uuid');
 const userService = require('../users/user_service');
 const Errors = require('../common/exceptions');
+const smsSender = require('../libs/smsSender');
 const moment = require('moment');
 
 exports.createOtp = async (mobileNumber, roleId) => {
     let otp = await generateCode(roleId, mobileNumber);
     // TODO: send otp with sms, code = otp.code
+    let msg = 'Please use this code to login: ' + otp.code;
+    await smsSender.send(mobileNumber, msg);
     return {
         success: true
     };
