@@ -1,4 +1,5 @@
 'use strict';
+const config = require('../config/config');
 const {
   Model
 } = require('sequelize');
@@ -25,6 +26,9 @@ module.exports = (sequelize, DataTypes) => {
   });
   pharmacies.prototype.toJSON = function() {
     let values = this.get();
+    if (values.logo !== null){
+      values.logo = `${config.APP_URL}/${values.logo}`;
+    }
     return values;
   };
   return pharmacies;

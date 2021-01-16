@@ -21,3 +21,5 @@ exports.getAll = async (pageSize, pageNumber) => {
     results = results.map(p => p.toJSON());
     return results;
 };
+
+exports.getTotal = () => Pharmacy.count();

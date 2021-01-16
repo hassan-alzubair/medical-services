@@ -1,6 +1,6 @@
 const pharmacyDao = require('./pharmacies_dao');
 
-exports.createPharmacy = async (pharmacyDto) => {
+exports.createPharmacy = (pharmacyDto) => {
     // TODO: validate object
     let dto = {
         pharmacy_name: pharmacyDto.pharmacy_name,
@@ -15,4 +15,9 @@ exports.createPharmacy = async (pharmacyDto) => {
 
 exports.getPharmacies = (pageSize = 10, pageNumber = 0) => {
     return pharmacyDao.getAll(pageSize, pageNumber);
+};
+
+exports.getTotal = async () => {
+    let total = await pharmacyDao.getTotal();
+    return {total: total};
 };

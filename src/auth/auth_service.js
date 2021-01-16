@@ -9,7 +9,11 @@ exports.createOtp = async (mobileNumber, roleId) => {
     let otp = await generateCode(roleId, mobileNumber);
     // TODO: send otp with sms, code = otp.code
     let msg = 'Please use this code to login: ' + otp.code;
-    await smsSender.send(mobileNumber, msg);
+    try {
+        await smsSender.send(mobileNumber, msg);
+    }catch (e) {
+        console.log(e);
+    }
     return {
         success: true
     };
